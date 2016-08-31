@@ -29,4 +29,18 @@ filebeat.config:
 filebeat.runlevels_install:
   cmd.run:
     - name: update-rc.d filebeat defaults 95 10
+
+filebeats.systemdreload:
+  cmd.run:
+    - name: systemctl daemon-reload
+    - onlyif:
+      - test -d /usr/lib/systemd/system
+
+filebeats.systemdenable:
+  cmd.run: 
+    - name: systemctl enable filebeat.service
+    - onlyif:
+      - test -d /usr/lib/systemd/system
+
 {% endif %}
+
