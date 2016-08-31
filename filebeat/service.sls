@@ -1,8 +1,8 @@
-
+{% from "filebeat/map.jinja" import conf with context %}
 filebeat.service:
   service.running:
     - name: filebeat
     - enable: true
     - restart: true
     - watch:
-      - pkg: filebeat
+      - file: {{ conf.config_path }}
