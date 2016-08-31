@@ -34,13 +34,13 @@ filebeats.systemdreload:
   cmd.run:
     - name: systemctl daemon-reload
     - onlyif:
-      - test -d /usr/lib/systemd/system
+      - test -f /bin/systemctl
 
 filebeats.systemdenable:
   cmd.run: 
     - name: systemctl enable filebeat.service
     - onlyif:
-      - test -d /usr/lib/systemd/system
+      - test -f /bin/systemctl
 
 {% endif %}
 
