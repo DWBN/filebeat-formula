@@ -26,14 +26,16 @@ filebeat.config:
 filebeat.runlevels_install:
   cmd.run:
     - name: update-rc.d filebeat defaults 95 10
-    - onchanges: /etc/init.d/filebeat
+    - onchanges:
+      -file: /etc/init.d/filebeat
 
 filebeats.systemdreload:
   cmd.run:
     - name: systemctl daemon-reload
     - onlyif:
       - test -f /bin/systemctl
-    - onchanges: /etc/init.d/filebeat
+    - onchanges:
+      - file: /etc/init.d/filebeat
 
 filebeats:
   service.running:
