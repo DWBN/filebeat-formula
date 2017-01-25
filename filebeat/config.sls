@@ -21,26 +21,24 @@ filebeat.config:
     - user: root
     - group: root
     - mode: 644
-    - watch_in:
-# unfortunately, filebeat is restarted by cmd until tty issues are resolved
-      - cmd: filebeat.service
 
 {% if conf.runlevels_install %}
 filebeat.runlevels_install:
   cmd.run:
     - name: update-rc.d filebeat defaults 95 10
+    - onchanges: /etc/init.d/filebeat
 
 filebeats.systemdreload:
   cmd.run:
     - name: systemctl daemon-reload
     - onlyif:
       - test -f /bin/systemctl
+    - onchanges: /etc/init.d/filebeat
 
-filebeats.systemdenable:
-  cmd.run: 
-    - name: systemctl enable filebeat.service
-    - onlyif:
-      - test -f /bin/systemctl
+filebeats:
+  service.running:
+    - enable: true
+    - watch:
+      - file: {{ conf.config_path }}
 
 {% endif %}
-
