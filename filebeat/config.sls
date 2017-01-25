@@ -27,7 +27,7 @@ filebeat.runlevels_install:
   cmd.run:
     - name: update-rc.d filebeat defaults 95 10
     - onchanges:
-      -file: /etc/init.d/filebeat
+      - file: /etc/init.d/filebeat
 
 filebeats.systemdreload:
   cmd.run:
